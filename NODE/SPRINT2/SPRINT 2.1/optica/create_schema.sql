@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`compres` (
   INDEX `ulleres_idx` (`ulleres` ASC) VISIBLE,
   INDEX `proveidor_idx` (`proveidor` ASC) VISIBLE,
   INDEX `marca_idx` (`marca` ASC) VISIBLE,
-  CONSTRAINT `ulleres`
+  CONSTRAINT `ulleres_comprades`
     FOREIGN KEY (`ulleres`)
     REFERENCES `optica`.`ulleres` (`idulleres`)
     ON DELETE NO ACTION
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`compres` (
     ON UPDATE NO ACTION,
   CONSTRAINT `marca`
     FOREIGN KEY (`marca`)
-    REFERENCES `optica`.`ulleres` (`marca`)
+    REFERENCES `optica`.`ulleres` (`idmarca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -128,12 +128,12 @@ CREATE TABLE IF NOT EXISTS `optica`.`ventes` (
   INDEX `ulleres_idx` (`ulleres` ASC) VISIBLE,
   INDEX `client_idx` (`client` ASC) VISIBLE,
   INDEX `empleat_idx` (`empleat` ASC) VISIBLE,
-  CONSTRAINT `ulleres`
+  CONSTRAINT `ulleres_venudes`
     FOREIGN KEY (`ulleres`)
     REFERENCES `optica`.`ulleres` (`idulleres`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `client`
+  CONSTRAINT `client_compra`
     FOREIGN KEY (`client`)
     REFERENCES `optica`.`clients` (`idclients`)
     ON DELETE NO ACTION
