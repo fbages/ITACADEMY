@@ -1,4 +1,4 @@
-USE pizzeria;
+USE `pizzeria_francesc`;
 
 INSERT INTO botigues(nom) VALUES
 ('BOTIGA1'),
@@ -54,6 +54,24 @@ INSERT INTO productes(nom, categoria, descripcio, imatge, preu) VALUES
 ('pizza gran bbq',3,'pizza gran bbq','imatge9',10.8),
 ('pizza gran 4 formatges',3,'pizza gran 4 formatges','imatge10',11);
 
+INSERT INTO clients(nom,cognom,adreça,codi_postal,localitat,telefon) VALUES
+('Marc','Garcia','Diagonal 533 6-2',08024,1,654654654),
+('Ana','Marques','Diagonal 33 1-2',08025,1,654654651),
+('Enric','Perez','Corsega 41 3-2',08024,1,654633354);
+
+INSERT INTO comandes(idclient,dataihora,distribucio,preu,botiga,repertidor,entregadataihora) VALUES
+
+(1,'2022-05-30 17:45:00','Recollida',15,1,null,null),
+(1,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,5,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
+(2,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
+(1,'2022-05-05 17:45:00','Recollida',7,1,null,null),
+(1,'2022-05-05 17:45:00','Recollida',7,1,null,null);
+
+
 INSERT INTO detall_compres(producte,preu_compra,quantitat,idcomanda) VALUES
 
 (1,2,4,1),
@@ -71,22 +89,9 @@ INSERT INTO detall_compres(producte,preu_compra,quantitat,idcomanda) VALUES
 (7,2,4,7),
 (7,2,4,8);
 
-INSERT INTO comandes(client,dataihora,distribucio,preu,botiga,repertidor,entregadataihora) VALUES
 
-(1,'2022-05-30 17:45:00','Recollida',15,1,null,null),
-(2,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(3,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
-(4,'2022-05-25 17:45:00','Enviar',10,1,5,'2022-05-25 18:45:00'),
-(5,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
-(6,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(6,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(7,'2022-05-05 17:45:00','Recollida',7,1,null,null),
-(1,'2022-05-05 17:45:00','Recollida',7,1,null,null);
 
-INSERT INTO clients(nom,cognom,adreça,codi_postal,localitat,telefon) VALUES
-('Marc','Garcia','Diagonal 533 6-2',08024,1,654654654),
-('Ana','Marques','Diagonal 33 1-2',08025,1,654654651),
-('Enric','Perez','Corsega 41 3-2',08024,1,654633354);
+
 
 
 
