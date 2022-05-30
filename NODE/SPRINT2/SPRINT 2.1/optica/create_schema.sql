@@ -1,13 +1,13 @@
 CREATE SCHEMA IF NOT EXISTS optica;
 
-CREATE TABLE IF NOT EXISTS `optica`.`adreça proveidors` (
+CREATE TABLE IF NOT EXISTS `optica`.`adreça_proveidors` (
   `idadreça` INT NOT NULL AUTO_INCREMENT,
   `carrer` VARCHAR(45) NULL,
-  `numero` VARCHAR(45) NULL,
-  `pis` VARCHAR(45) NULL,
-  `porta` VARCHAR(45) NULL,
+  `número` INT NULL,
+  `pis` INT NULL,
+  `porta` INT NULL,
   `ciutat` VARCHAR(45) NULL,
-  `codi_postal` VARCHAR(45) NULL,
+  `codi_postal` INT NULL,
   `país` VARCHAR(45) NULL,
   PRIMARY KEY (`idadreça`))
 ENGINE = InnoDB;
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `optica`.`proveidors` (
   INDEX `adreça_idx` (`adreça` ASC) VISIBLE,
   CONSTRAINT `adreça`
     FOREIGN KEY (`adreça`)
-    REFERENCES `optica`.`adreça proveidors` (`idadreça`)
+    REFERENCES `optica`.`adreça_proveidors` (`idadreça`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `optica`.`clients` (
   `idclients` INT NOT NULL AUTO_INCREMENT,
   `adreça_clients` VARCHAR(45) NOT NULL,
   `recomanat_per_client` INT NULL,
-  `registre` DATE NOT NULL,
-  `codi postal` INT NOT NULL,
+  `registre` DATETIME NOT NULL,
+  `codi_postal` INT NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telefon` INT NOT NULL,
   PRIMARY KEY (`idclients`),
@@ -45,14 +45,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `optica`.`marques` (
   `idmarques` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(45) NOT NULL,
-  `proveidor` INT NOT NULL,
-  PRIMARY KEY (`idmarques`),
-  INDEX `proviedor_idx` (`proveidor` ASC) VISIBLE,
-  CONSTRAINT `proviedor`
-    FOREIGN KEY (`proveidor`)
-    REFERENCES `optica`.`proveidors` (`idproveidors`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`idmarques`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica`.`empleats` (
@@ -93,27 +86,20 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `optica`.`compres` (
   `idcompres` INT NOT NULL AUTO_INCREMENT,
-  `ulleres` INT NOT NULL,
-  `marca` INT NOT NULL,
+  `marca_compres` INT NOT NULL,
   `quantitat` INT NOT NULL,
   `proveidor` INT NOT NULL,
   PRIMARY KEY (`idcompres`),
-  INDEX `ulleres_idx` (`ulleres` ASC) VISIBLE,
   INDEX `proveidor_idx` (`proveidor` ASC) VISIBLE,
-  INDEX `marca_idx` (`marca` ASC) VISIBLE,
-  CONSTRAINT `ulleres_comprades`
-    FOREIGN KEY (`ulleres`)
-    REFERENCES `optica`.`ulleres` (`idulleres`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `marca_compres_idx` (`marca_compres` ASC) VISIBLE,
   CONSTRAINT `proveidor`
     FOREIGN KEY (`proveidor`)
     REFERENCES `optica`.`proveidors` (`idproveidors`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `marca`
-    FOREIGN KEY (`marca`)
-    REFERENCES `optica`.`ulleres` (`idmarca`)
+  CONSTRAINT `marca_compres`
+    FOREIGN KEY (`marca_compres`)
+    REFERENCES `optica`.`marques` (`idmarques`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -123,17 +109,17 @@ CREATE TABLE IF NOT EXISTS `optica`.`ventes` (
   `ulleres` INT NOT NULL,
   `client` INT NOT NULL,
   `empleat` INT NOT NULL,
-  `data` DATETIME NOT NULL,
+  `data_registre` DATETIME NOT NULL,
   PRIMARY KEY (`idventes`),
   INDEX `ulleres_idx` (`ulleres` ASC) VISIBLE,
-  INDEX `client_idx` (`client` ASC) VISIBLE,
+  INDEX `client_compra_idx` (`client` ASC) VISIBLE,
   INDEX `empleat_idx` (`empleat` ASC) VISIBLE,
   CONSTRAINT `ulleres_venudes`
     FOREIGN KEY (`ulleres`)
     REFERENCES `optica`.`ulleres` (`idulleres`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `client_compra`
+  CONSTRAINT `client`
     FOREIGN KEY (`client`)
     REFERENCES `optica`.`clients` (`idclients`)
     ON DELETE NO ACTION
