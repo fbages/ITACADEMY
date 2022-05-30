@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`clients` (
   `adreça` VARCHAR(45) NULL,
   `codi_postal` INT NULL,
   `localitat` INT NULL,
-  `provincia` INT NULL,
   `telefon` INT NULL,
   PRIMARY KEY (`idclients`))
 ENGINE = InnoDB;
@@ -88,24 +87,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pizzeria`.`detall_compres`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pizzeria`.`detall_compres` (
-  `iddetall_compres` INT NOT NULL AUTO_INCREMENT,
-  `producte` INT NULL,
-  `preu_compra` DOUBLE NULL,
-  `quantitat` INT NULL,
-  PRIMARY KEY (`iddetall_compres`),
-  INDEX `producte_idx` (`producte` ASC) VISIBLE,
-  CONSTRAINT `idproducte`
-    FOREIGN KEY (`producte`)
-    REFERENCES `pizzeria`.`productes` (`idproductes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `pizzeria`.`botigues`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pizzeria`.`botigues` (
@@ -143,22 +124,15 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`comandes` (
   `idcomandes` INT NOT NULL AUTO_INCREMENT,
   `client` INT NULL,
   `dataihora` DATETIME NULL,
-  `distribucio` INT NULL,
-  `detall_compra` INT NULL,
+  `distribucio` ENUM('Recollida','Enviar'),
   `preu` DOUBLE NULL,
   `botiga` INT NULL,
   `repertidor` INT NULL,
   `entregadataihora` DATETIME NULL,
   PRIMARY KEY (`idcomandes`),
-  INDEX `detall_compra_idx` (`detall_compra` ASC) VISIBLE,
   INDEX `empleat_idx` (`repertidor` ASC) VISIBLE,
   INDEX `client_idx` (`client` ASC) VISIBLE,
   INDEX `idbotiga_idx` (`botiga` ASC) VISIBLE,
-  CONSTRAINT `iddetall_compra`
-    FOREIGN KEY (`detall_compra`)
-    REFERENCES `pizzeria`.`detall_compres` (`iddetall_compres`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `idbotiga_empleat`
     FOREIGN KEY (`botiga`)
     REFERENCES `pizzeria`.`botigues` (`idbotigues`)
@@ -176,6 +150,30 @@ CREATE TABLE IF NOT EXISTS `pizzeria`.`comandes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `pizzeria`.`detall_compres`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pizzeria`.`detall_compres` (
+  `iddetall_compres` INT NOT NULL AUTO_INCREMENT,
+  `producte` INT NULL,
+  `preu_compra` DOUBLE NULL,
+  `quantitat` INT NULL,
+  `idcomanda` INT NULL,
+  PRIMARY KEY (`iddetall_compres`),
+  INDEX `producte_idx` (`producte` ASC) VISIBLE,
+  INDEX `comanda_idx` (`idcomanda` ASC) VISIBLE,
+  CONSTRAINT `idproducte`
+    FOREIGN KEY (`producte`)
+    REFERENCES `pizzeria`.`productes` (`idproductes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idcomanda`
+    FOREIGN KEY (`idcomanda`)
+    REFERENCES `pizzeria`.`comandes` (`idcomandes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
