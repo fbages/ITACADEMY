@@ -191,6 +191,36 @@ CREATE TABLE IF NOT EXISTS `hashtag` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
 CREATE INDEX `video_idx` ON `youtube_francesc`.`hashtag` (`video_hashtag` ASC) VISIBLE;
 
+delimiter //
+
+create trigger contador_likes_dislikes
+       after insert on like_dislikes
+       for each row
+       begin
+		DECLARE index1 INT unsigned DEFAULT 1;
+		DECLARE quantitat INT unsigned DEFAULT 0;
+        DECLARE opinio_var varchar(1);
+        SET opinio_var = (SELECT opinio FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1);
+        
+		IF opinio_var = 'L' THEN 
+        SET index1 := (SELECT video FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1); 
+        SET quantitat := (SELECT numero_likes FROM videos WHERE idvideos = index1);
+		update videos set 
+			numero_likes = quantitat + 1 
+			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ USARIA MÉS RECURSOS DE LA DB PER CADA LIKE
+        END IF;
+        
+		IF opinio_var = 'D' THEN
+        SET index1 := (SELECT video FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1); 
+        SET quantitat := (SELECT numero_dislikes FROM videos WHERE idvideos = index1);
+		update videos set 
+			numero_dislikes = quantitat + 1 
+			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ USARIA MÉS RECURSOS DE LA DB PER CADA LIKE
+        END IF;
+        
+       end; // 
+
+create trigger conta_num_reproduccions
+		after update on 
