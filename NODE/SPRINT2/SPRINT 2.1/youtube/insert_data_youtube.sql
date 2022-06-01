@@ -75,3 +75,12 @@ INSERT INTO usuaris_registrats_canal(id_canal,usuari_subscrit) VALUES
 (1,2),
 (4,5),
 (4,4);
+
+INSERT INTO comentaris(id_video_comentat,id_usuari_comenta,text_comentari,data_comentari) VALUES
+(1,3,"M'agrada molt",'2022-11-03 12:45:32'),
+(2,4,"No m'agrada gaire",'2022-11-03 12:45:32');
+
+INSERT INTO comentari_seguiment(id_comentari_agrada,id_usuari_agrada,agrada_o_no,data_comentari_agrada) VALUES
+(1,4,'SI','2022-11-03 12:45:32'),
+(1,5,'SI','2022-11-03 12:45:32'),
+(2,1,'NO','2022-11-03 12:45:32');

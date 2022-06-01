@@ -1,6 +1,10 @@
-CREATE SCHEMA IF NOT EXISTS optica;
+DROP SCHEMA optica_francesc;
 
-CREATE TABLE IF NOT EXISTS `optica`.`adreça_proveidors` (
+CREATE SCHEMA IF NOT EXISTS optica_francesc;
+
+USE optica_francesc;
+
+CREATE TABLE IF NOT EXISTS `adreça_proveidors` (
   `idadreça` INT NOT NULL AUTO_INCREMENT,
   `carrer` VARCHAR(45) NULL,
   `número` INT NULL,
@@ -9,10 +13,10 @@ CREATE TABLE IF NOT EXISTS `optica`.`adreça_proveidors` (
   `ciutat` VARCHAR(45) NULL,
   `codi_postal` INT NULL,
   `país` VARCHAR(45) NULL,
-  PRIMARY KEY (`idadreça`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idadreça`));
 
-CREATE TABLE IF NOT EXISTS `optica`.`proveidors` (
+
+CREATE TABLE IF NOT EXISTS `proveidors` (
   `idproveidors` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(45) NOT NULL,
   `adreça` INT NOT NULL,
@@ -20,12 +24,12 @@ CREATE TABLE IF NOT EXISTS `optica`.`proveidors` (
   INDEX `adreça_idx` (`adreça` ASC) VISIBLE,
   CONSTRAINT `adreça`
     FOREIGN KEY (`adreça`)
-    REFERENCES `optica`.`adreça_proveidors` (`idadreça`)
+    REFERENCES `adreça_proveidors` (`idadreça`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS `optica`.`clients` (
+
+CREATE TABLE IF NOT EXISTS`clients` (
   `idclients` INT NOT NULL AUTO_INCREMENT,
   `adreça_clients` VARCHAR(45) NOT NULL,
   `recomanat_per_client` INT NULL,
@@ -37,30 +41,30 @@ CREATE TABLE IF NOT EXISTS `optica`.`clients` (
   INDEX `recomanat_idx` (`recomanat_per_client` ASC) VISIBLE,
   CONSTRAINT `recomanat`
     FOREIGN KEY (`recomanat_per_client`)
-    REFERENCES `optica`.`clients` (`idclients`)
+    REFERENCES `clients` (`idclients`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS `optica`.`marques` (
+
+CREATE TABLE IF NOT EXISTS `marques` (
   `idmarques` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idmarques`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idmarques`));
 
-CREATE TABLE IF NOT EXISTS `optica`.`empleats` (
+
+CREATE TABLE IF NOT EXISTS `empleats` (
   `idempleats` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idempleats`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idempleats`));
 
-CREATE TABLE IF NOT EXISTS `optica`.`muntura` (
+
+CREATE TABLE IF NOT EXISTS `muntura` (
   `idmuntura` INT NOT NULL AUTO_INCREMENT,
   `tipus` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idmuntura`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idmuntura`));
 
-CREATE TABLE IF NOT EXISTS `optica`.`ulleres` (
+
+CREATE TABLE IF NOT EXISTS `ulleres` (
   `idulleres` INT NOT NULL AUTO_INCREMENT,
   `marca` INT NOT NULL,
   `graduacio_dreta` DOUBLE NOT NULL,
@@ -74,17 +78,16 @@ CREATE TABLE IF NOT EXISTS `optica`.`ulleres` (
   INDEX `marca_idx` (`marca` ASC) VISIBLE,
   CONSTRAINT `muntura`
     FOREIGN KEY (`muntura`)
-    REFERENCES `optica`.`muntura` (`idmuntura`)
+    REFERENCES `muntura` (`idmuntura`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `marca`
     FOREIGN KEY (`marca`)
-    REFERENCES `optica`.`marques` (`idmarques`)
+    REFERENCES `marques` (`idmarques`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS `optica`.`compres` (
+CREATE TABLE IF NOT EXISTS `compres` (
   `idcompres` INT NOT NULL AUTO_INCREMENT,
   `marca_compres` INT NOT NULL,
   `quantitat` INT NOT NULL,
@@ -94,17 +97,16 @@ CREATE TABLE IF NOT EXISTS `optica`.`compres` (
   INDEX `marca_compres_idx` (`marca_compres` ASC) VISIBLE,
   CONSTRAINT `proveidor`
     FOREIGN KEY (`proveidor`)
-    REFERENCES `optica`.`proveidors` (`idproveidors`)
+    REFERENCES `proveidors` (`idproveidors`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `marca_compres`
     FOREIGN KEY (`marca_compres`)
-    REFERENCES `optica`.`marques` (`idmarques`)
+    REFERENCES `marques` (`idmarques`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS `optica`.`ventes` (
+CREATE TABLE IF NOT EXISTS `ventes` (
   `idventes` INT NOT NULL AUTO_INCREMENT,
   `ulleres` INT NOT NULL,
   `client` INT NOT NULL,
@@ -116,17 +118,16 @@ CREATE TABLE IF NOT EXISTS `optica`.`ventes` (
   INDEX `empleat_idx` (`empleat` ASC) VISIBLE,
   CONSTRAINT `ulleres_venudes`
     FOREIGN KEY (`ulleres`)
-    REFERENCES `optica`.`ulleres` (`idulleres`)
+    REFERENCES `ulleres` (`idulleres`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `client`
     FOREIGN KEY (`client`)
-    REFERENCES `optica`.`clients` (`idclients`)
+    REFERENCES `clients` (`idclients`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `empleat`
     FOREIGN KEY (`empleat`)
-    REFERENCES `optica`.`empleats` (`idempleats`)
+    REFERENCES `empleats` (`idempleats`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);

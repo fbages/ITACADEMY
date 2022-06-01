@@ -1,4 +1,4 @@
-USE optica;
+USE optica_francesc;
 
 INSERT INTO adreça_proveidors(carrer,número,pis,porta,ciutat,codi_postal,país) VALUES 
 ('Carrer Lepant',63,3,1,'Barcelona',08025,'Espanya'),

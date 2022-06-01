@@ -193,34 +193,78 @@ CREATE TABLE IF NOT EXISTS `hashtag` (
 
 CREATE INDEX `video_idx` ON `youtube_francesc`.`hashtag` (`video_hashtag` ASC) VISIBLE;
 
+CREATE TABLE IF NOT EXISTS `comentaris` (
+`idcomentaris` INT NOT NULL AUTO_INCREMENT,
+`id_video_comentat` INT NULL,
+`id_usuari_comenta` INT NULL,
+`text_comentari` LONGTEXT NULL,
+`data_comentari` DATETIME,
+PRIMARY KEY (`idcomentaris`),
+CONSTRAINT `id_video_comentat`
+	FOREIGN KEY (`id_video_comentat`)
+    REFERENCES `youtube_francesc`.`videos` (`idvideos`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+CONSTRAINT `id_usuari_comenta`
+	FOREIGN KEY (`id_usuari_comenta`)
+    REFERENCES `youtube_francesc`.`usuaris` (`idusuari`)
+        ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+    );
+    
+CREATE INDEX `video_comentat_idx` ON `youtube_francesc`.`comentaris` (`id_video_comentat` ASC) VISIBLE;
+CREATE INDEX `usuari_comenta_idx` ON `youtube_francesc`.`comentaris` (`id_usuari_comenta` ASC) VISIBLE;
+
+CREATE TABLE IF NOT EXISTS `comentari_seguiment` (
+`idcomentari_seguiment` INT NOT NULL AUTO_INCREMENT,
+`id_comentari_agrada` INT NULL,
+`id_usuari_agrada` INT NULL,
+`agrada_o_no` ENUM('SI','NO') NULL,
+`data_comentari_agrada` DATETIME,
+PRIMARY KEY (`idcomentari_seguiment`),
+CONSTRAINT `id_comentari_agrada`
+	FOREIGN KEY (`id_comentari_agrada`)
+    REFERENCES `youtube_francesc`.`comentaris` (`idcomentaris`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+CONSTRAINT `id_usuari_agrada`
+	FOREIGN KEY (`id_usuari_agrada`)
+    REFERENCES `youtube_francesc`.`usuaris` (`idusuari`)
+        ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+);
+
+CREATE INDEX `comentari_agrada_idx` ON `youtube_francesc`.`comentari_seguiment` (`id_comentari_agrada` ASC) VISIBLE;
+CREATE INDEX `usuari_agrada_idx` ON `youtube_francesc`.`comentari_seguiment` (`id_usuari_agrada` ASC) VISIBLE;
+
+    
 delimiter //
 
-create trigger contador_likes_dislikes
-       after insert on like_dislikes
-       for each row
-       begin
+CREATE TRIGGER contador_likes_dislikes
+       AFTER INSERT ON like_dislikes
+       FOR EACH ROW
+       BEGIN
 		DECLARE index1 INT unsigned DEFAULT 1;
 		DECLARE quantitat INT unsigned DEFAULT 0;
-        DECLARE opinio_var varchar(1);
+        DECLARE opinio_var VARCHAR(1);
         SET opinio_var = (SELECT opinio FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1);
         
 		IF opinio_var = 'L' THEN 
         SET index1 := (SELECT video FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1); 
         SET quantitat := (SELECT numero_likes FROM videos WHERE idvideos = index1);
-		update videos set 
+		UPDATE videos SET 
 			numero_likes = quantitat + 1 
-			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ USARIA MÉS RECURSOS DE LA DB PER CADA LIKE
+			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ REQUEREIX MÉS RECURSOS DE LA DB PER CADA LIKE
         END IF;
         
 		IF opinio_var = 'D' THEN
         SET index1 := (SELECT video FROM like_dislikes ORDER BY idlike_dislikes desc LIMIT 1); 
         SET quantitat := (SELECT numero_dislikes FROM videos WHERE idvideos = index1);
-		update videos set 
+		UPDATE videos SET 
 			numero_dislikes = quantitat + 1 
-			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ USARIA MÉS RECURSOS DE LA DB PER CADA LIKE
+			WHERE idvideos = index1;  -- TAMBÉ ES PODRIA FER AMB UNA QUERY QUE CONTI TOTS ELS LIKES D'UN VIDEO, PERÒ REQUEREIX MÉS RECURSOS DE LA DB PER CADA LIKE
         END IF;
         
-       end; // 
-
-create trigger conta_num_reproduccions
-		after update on 
+       END; // 
+       
+       -- Per fer el contador del número de reproduccions hauria de fer un trigger d'un procediment, en el qual, hi hagués la query de busqueda del video

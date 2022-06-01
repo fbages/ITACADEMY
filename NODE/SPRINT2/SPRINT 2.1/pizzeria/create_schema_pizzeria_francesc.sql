@@ -1,20 +1,8 @@
+
 DROP SCHEMA IF EXISTS `pizzeria_francesc`;
 CREATE SCHEMA `pizzeria_francesc` DEFAULT CHARACTER SET utf8 ;
 
 USE `pizzeria_francesc` ;
--- -----------------------------------------------------
--- Table `pizzeria`.`clients`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `clients` (
-  `idclients` INT NOT NULL AUTO_INCREMENT,
-  `nom` VARCHAR(45) NULL,
-  `cognom` VARCHAR(45) NULL,
-  `adreça` VARCHAR(45) NULL,
-  `codi_postal` INT NULL,
-  `localitat` INT NULL,
-  `telefon` INT NULL,
-  PRIMARY KEY (`idclients`));
-
 
 -- -----------------------------------------------------
 -- Table `pizzeria`.`provincies`
@@ -40,7 +28,25 @@ CREATE TABLE IF NOT EXISTS `localitats` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
+-- -----------------------------------------------------
+-- Table `pizzeria`.`clients`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clients` (
+  `idclients` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NULL,
+  `cognom` VARCHAR(45) NULL,
+  `adreça` VARCHAR(45) NULL,
+  `codi_postal` INT NULL,
+  `localitat` INT NULL,
+  `telefon` INT NULL,
+  PRIMARY KEY (`idclients`),
+  INDEX `localitat_idx` (`localitat` ASC) VISIBLE,
+  CONSTRAINT `localitat`
+    FOREIGN KEY (`localitat`)
+    REFERENCES `localitats` (`idlocalitats`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+   
 -- -----------------------------------------------------
 -- Table `pizzeria`.`categories`
 -- -----------------------------------------------------
@@ -75,6 +81,10 @@ CREATE TABLE IF NOT EXISTS `productes` (
 CREATE TABLE IF NOT EXISTS `botigues` (
   `idbotigues` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(45) NULL,
+  `adreça` VARCHAR(45) NULL,
+  `codi_postal` INT NULL,
+  `localitat` INT NULL,
+  `provincia` INT NULL,
   PRIMARY KEY (`idbotigues`));
 
 
