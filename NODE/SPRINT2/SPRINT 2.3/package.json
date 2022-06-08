@@ -1,5 +1,26 @@
 {
   "dependencies": {
     "mongodb": "^4.7.0"
-  }
+  },
+  "name": "sprint-2.3",
+  "version": "1.0.0",
+  "description": "sprint-2.3",
+  "main": "",
+  "devDependencies": {},
+  "scripts": {
+    "optica":"mongo optica_francesc ./Optica/optica_francesc.js",
+    "pizzeria":"mongo pizzeria_francesc ./Pizzeria/pizzeria_francesc.js",
+    "youtube":"mongo youtube_francesc ./Youtube/youtube_francesc.js",
+    "spotify":"mongo spotify_francesc ./Spotify/spotify_francesc.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fbages/ITACADEMY.git#main"
+  },
+  "author": "FBS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fbages/ITACADEMY/issues"
+  },
+  "homepage": "https://github.com/fbages/ITACADEMY/tree/main#readme"
 }
