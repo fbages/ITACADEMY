@@ -31,7 +31,8 @@ INSERT INTO marques(nom) VALUES
 INSERT INTO proveidors(nom,adreça) VALUES
 ('Exportaciones Manolo SA',1),
 ('Export Terrassa SA',2),
-('PRETAGAFAS SLU',3);
+('PRETAGAFAS SLU',3),
+('Pepito SA',3);
 
 INSERT INTO compres(marca_compres,quantitat,proveidor) VALUES
 (1,50,3),
@@ -49,7 +50,7 @@ INSERT INTO ulleres(marca, graduacio_dreta,graduacio_esquerra, muntura, color_mu
 (4,3,5,1,'negre','transparent',190);
 
 INSERT INTO ventes(ulleres, client, empleat, data_registre) VALUES
-(2,1,3,'2022-2-19 09:30:22'),
+(1,1,3,'2022-2-19 09:30:22'),
 (3,1,2,'2022-1-30 15:25:11'),
 (1,2,3,'2022-1-30 15:25:11'),
 (5,1,1,'2022-3-02 18:25:11'),

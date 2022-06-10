@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `comandes` (
   `distribucio` ENUM('Recollida','Enviar'),
   `preu` DOUBLE NULL,
   `botiga` INT NULL,
+  `cuiner` INT NULL,
   `repertidor` INT NULL,
   `entregadataihora` DATETIME NULL,
   PRIMARY KEY (`idcomandes`),
@@ -131,6 +132,11 @@ CREATE TABLE IF NOT EXISTS `comandes` (
     ON UPDATE NO ACTION,
   CONSTRAINT `idempleat`
     FOREIGN KEY (`repertidor`)
+    REFERENCES `empleats` (`idempleats`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idempleat2`
+    FOREIGN KEY (`cuiner`)
     REFERENCES `empleats` (`idempleats`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

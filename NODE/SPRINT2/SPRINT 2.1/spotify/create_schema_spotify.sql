@@ -14,7 +14,7 @@ USE `spotify_francesc` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify_francesc`.`targeta_credit` (
   `idtargeta_credit` INT NOT NULL AUTO_INCREMENT,
-  `numero_targeta` INT(16) NULL,
+  `numero_targeta` VARCHAR(19) NULL,
   `mes_caducitat` INT(2) NULL,
   `any_caducitat` INT(2) NULL,
   `codi_seguretat` INT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `spotify_francesc`.`subscripcions` (
   `idsubscripcions` INT NOT NULL AUTO_INCREMENT,
   `inici_subscripcio` DATETIME NULL,
   `renovacio_subscripcio` DATETIME NULL,
-  `metode_pagament` ENUM('Tarjeta', 'Paypal') NULL,
+  `metode_pagament` ENUM('Targeta', 'Paypal') NULL,
   `idtargeta_credit` INT NULL,
   `usuari_paypal` VARCHAR(45) NULL,
   PRIMARY KEY (`idsubscripcions`),
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `spotify_francesc`.`artistes` (
   `idartistes` INT NOT NULL AUTO_INCREMENT,
   `nom_artista` VARCHAR(45) NULL,
   `imatge_artista` BLOB NULL,
-  `tipus_musica` ENUM('Country', 'Jazz', 'Tecno', 'Clasica') NULL,
+  `tipus_musica` ENUM('Country', 'Jazz', 'Tecno', 'Clasica','Punk','Rock','Poprock') NULL,
   PRIMARY KEY (`idartistes`));
 
 

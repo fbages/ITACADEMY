@@ -1,4 +1,4 @@
-DROP SCHEMA optica_francesc;
+DROP SCHEMA IF EXISTS optica_francesc;
 
 CREATE SCHEMA IF NOT EXISTS optica_francesc;
 

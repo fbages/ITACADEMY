@@ -22,10 +22,10 @@ INSERT INTO empleats(nom, cognom, nif, telefon, tipus_empleat,botiga) VALUES
 ('Nom_empleat6','Cognom_empleat6','12345678B',612345683,'cuiner',2),
 ('Nom_empleat7','Cognom_empleat7','12345678C',612345684,'cuiner',3),
 ('Nom_empleat8','Cognom_empleat8','12345678D',612345685,'cuiner',4),
-('Nom_empleat9','Cognom_empleat9','12345678A',612345686,'cuiner',1),
-('Nom_empleat10','Cognom_empleat10','12345678B',612345687,'cuiner',2),
-('Nom_empleat11','Cognom_empleat11','12345678C',612345688,'cuiner',3),
-('Nom_empleat12','Cognom_empleat12','12345678D',612345689,'cuiner',4);
+('Nom_empleat9','Cognom_empleat9','12345678A',612345686,'repartidor',1),
+('Nom_empleat10','Cognom_empleat10','12345678B',612345687,'repartidor',2),
+('Nom_empleat11','Cognom_empleat11','12345678C',612345688,'repartidor',3),
+('Nom_empleat12','Cognom_empleat12','12345678D',612345689,'repartidor',4);
 
 INSERT INTO provincies(provincia) VALUES
 ('Lleida'),
@@ -59,17 +59,17 @@ INSERT INTO clients(nom,cognom,adreça,codi_postal,localitat,telefon) VALUES
 ('Ana','Marques','Diagonal 33 1-2',08025,1,654654651),
 ('Enric','Perez','Corsega 41 3-2',08024,1,654633354);
 
-INSERT INTO comandes(idclient,dataihora,distribucio,preu,botiga,repertidor,entregadataihora) VALUES
+INSERT INTO comandes(idclient,dataihora,distribucio,preu,botiga,cuiner,repertidor,entregadataihora) VALUES
 
-(1,'2022-05-30 17:45:00','Recollida',15,1,null,null),
-(1,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(1,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
-(1,'2022-05-25 17:45:00','Enviar',10,1,5,'2022-05-25 18:45:00'),
-(1,'2022-05-25 17:45:00','Enviar',10,1,4,'2022-05-25 18:45:00'),
-(1,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(2,'2022-05-25 17:45:00','Enviar',10,1,3,'2022-05-25 18:45:00'),
-(1,'2022-05-05 17:45:00','Recollida',7,1,null,null),
-(1,'2022-05-05 17:45:00','Recollida',7,1,null,null);
+(1,'2022-05-30 17:45:00','Recollida',15,1,8,null,null),
+(1,'2022-05-25 17:45:00','Enviar',10,1,3,11,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,4,12,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,5,9,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,4,12,'2022-05-25 18:45:00'),
+(1,'2022-05-25 17:45:00','Enviar',10,1,3,11,'2022-05-25 18:45:00'),
+(2,'2022-05-25 17:45:00','Enviar',10,1,3,11,'2022-05-25 18:45:00'),
+(1,'2022-05-05 17:45:00','Recollida',7,1,3,null,null),
+(1,'2022-05-05 17:45:00','Recollida',7,1,7,null,null);
 
 
 INSERT INTO detall_compres(producte,preu_compra,quantitat,idcomanda) VALUES
