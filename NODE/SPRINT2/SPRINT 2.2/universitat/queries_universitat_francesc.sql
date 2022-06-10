@@ -43,19 +43,8 @@ USE universidad;
 -- SELECT asignatura.nombre FROM asignatura LEFT JOIN profesor ON profesor.id_profesor = asignatura.id_profesor WHERE profesor.id_profesor IS NULL;
 
 -- 6
-/* no va
-SELECT ALL * 
-FROM departamento 
-LEFT JOIN profesor 
-ON profesor.id_departamento = departamento.id 
-LEFT JOIN asignatura ON asignatura.id_profesor = profesor.id_profesor 
-LEFT JOIN alumno_se_matricula_asignatura 
-ON alumno_se_matricula_asignatura.id_asignatura = asignatura.id 
-LEFT JOIN curso_escolar 
-ON curso_escolar.id = alumno_se_matricula_asignatura.id_curso_escolar 
-WHERE departamento.id = ALL( SELECT curso_escolar.id FROM curso_escolar WHERE curso_escolar.id IS NULL);
-;
-*/
+-- SELECT DISTINCT departamento.nombre FROM departamento LEFT JOIN profesor ON profesor.id_departamento = departamento.id LEFT JOIN asignatura ON asignatura.id_profesor = profesor.id_profesor LEFT JOIN alumno_se_matricula_asignatura ON alumno_se_matricula_asignatura.id_asignatura = asignatura.id LEFT JOIN curso_escolar ON curso_escolar.id = alumno_se_matricula_asignatura.id_curso_escolar WHERE curso_escolar.anyo_inicio IS NULL;
+
 -- Consultes resum
 -- 1
 -- SELECT COUNT(persona.id) FROM persona WHERE persona.tipo = 'alumno';
