@@ -1,6 +1,5 @@
-const funcions = require("./funcions");
+const middleware = require("./funcions");
 const fsp = require("fs/promises");
-const { appendFile } = require("fs");
 
 function suma(a, b) {
   return a + b;
@@ -14,13 +13,11 @@ function multiplica(a, b) {
   return a * b;
 }
 
-// app.use(funcions);
-
 //   cargar fitxer
 let doc;
-async function cargarfitxer() {
+async function cargarfitxer(direccio) {
   try {
-    doc = await fsp.readFile("./input.json", "utf8");
+    doc = await fsp.readFile(direccio, "utf8");
     doc = JSON.parse(doc);
   } catch (err) {
     console.log(err);
@@ -28,16 +25,20 @@ async function cargarfitxer() {
 }
 
 //Inicialització operacions
-async function principal() {
+async function principal(direccio) {
   try {
-    await cargarfitxer();
+    await cargarfitxer(direccio);
     console.log(suma(doc.a, doc.b));
     console.log(resta(doc.a, doc.b));
     console.log(multiplica(doc.a, doc.b));
-    
+    return 2;
   } catch (err) {
     console.log(err);
   }
 }
 
-principal();
+//definicio de aplicacio;
+const app = middleware();
+
+//Middlewares
+
