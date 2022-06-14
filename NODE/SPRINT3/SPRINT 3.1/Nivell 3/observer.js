@@ -1,104 +1,97 @@
 const EventEmitter = require("events").EventEmitter;
 
-class Usuari {
-    constructor(nomUsuari) {
-        this.nom = nomUsuari;
-    }
+class Usuari extends EventEmitter {
+  constructor(nomUsuari) {
+    super();
+    this._nom = nomUsuari;
+    this.on("totsInformats", (missatge) => {
+      console.log(this.getNom() + " Informat del nou missatge : " + missatge);
+    });
+  }
 
-    getNom() {
-        return this.nom
-    }
+  getNom() {
+    return this._nom;
+  }
 
-    enviarMissatge(tema, missatge) {
-        tema.emit('Missatge enviat', missatge);
-    }
-
-    rebutMissatge(){
-        this.on('totsInformats',()=>{
-            console.log(this.getNom() + 'Informat');
-        })
-    }
-    
-
+  enviarMissatge(tema, missatge) {
+    tema.emit("Missatge", missatge);
+  }
 
 }
 
 class Tema extends EventEmitter {
-    constructor(nomTema, numUsuaris) {
-        super();
-        this.nom = nomTema;
-        this.missatges = [];
-        this.usuaris = [];
-        for (let i = 0; i < numUsuaris; i++) {
-            this.subscribe(`Nom ${i}`);
-        }
+  constructor(nomTema, numUsuaris) {
+    super();
+    this._nom = nomTema;
+    this._missatges = [];
+    this._usuaris = [];
+    // for (let i = 0; i < numUsuaris; i++) {
+    //     this.subscribe(`Nom ${i}`);
+    // }
+    this.on("usuariSubscrit", () => {
+      console.log("un usuari s'ha subscrit");
+      // console.table(temes);
+    });
+
+    this.on("usuariDesconectat", (usuari) => {
+      console.log(`${usuari._nom} s'ha desubscrit `);
+      // console.table(temes);
+    });
+
+    this.on("Missatge", missatge => {
+      this._missatges.push(missatge);
+      console.log(`S'ha rebut un missatge nou`)
+      this.notificar();
+    });
+  }
+
+  subscribe(usuari) {
+    this._usuaris.push(usuari);
+    this.emit("usuariSubscrit");
+  }
+
+  desubscribe(usuariDesubscrit) {
+    // console.log(usuariDesubscrit);
+    let index = this._usuaris.findIndex((usuari) => usuari._nom === usuariDesubscrit._nom);
+    // console.log(index);
+    this._usuaris.splice(index, 1);
+    this.emit("usuariDesconectat", usuariDesubscrit);
+  }
+
+  notificar() {
+    console.log(
+      `Des del tema ${this._nom}, s'informa a tots els usuaris subscrits.`
+    );
+    for (let usuari of this._usuaris) {
+      usuari.emit("totsInformats", this._missatges[this._missatges.length-1]);
     }
-
-    subscribe(usuari) {
-        this.usuaris.push(usuari);
-        this.emit("usuariSubscrit");
-
-    }
-
-    desubscribe(usuariNom) {
-        let index = this.usuaris.findIndex(usuari => usuari.nom === usuariNom);
-        this.usuaris.splice(index, 1);
-        this.emit("usuariDesconectat");
-    }
-
-    notificar() {
-        this.emit("totsInformats");
-    }
-
+  }
 }
 
 function creacioTemesAmbUsuaris(nomTema, numUsuaris) {
-    temes.push(new Tema(nomTema, numUsuaris));
+  temes.push(new Tema(nomTema, numUsuaris));
 }
-
 
 //Inicialització temes
 
 let temes = [];
 creacioTemesAmbUsuaris("Informació");
 creacioTemesAmbUsuaris("Anuncis");
-console.table(temes);
+//console.table(temes);
 
 let usuaris = [];
 usuaris.push(new Usuari("Usuari 1"));
 usuaris.push(new Usuari("Usuari 2"));
 usuaris.push(new Usuari("Usuari 3"));
 
-
-//Listeners dels temes
-for (let i = 0; i < temes.length; i++) {
-
-    temes[i].on('usuariSubscrit', () => {
-        console.log("un usuari s'ha subscrit");
-        console.table(temes);
-    });
-
-    temes[i].on('usuariDesconectat', () => {
-        console.log("un usuari s'ha desubscrit");
-        console.table(temes);
-    });
-
-    temes[i].on('Missatge enviat', (missatge) => {
-        temes[i].missatges.push(missatge);
-        console.table(temes);
-        temes[i].notificar();
-    })
-}
-
-
 //Inicialitzacio usuaris
-temes[0].subscribe("Usuari 1");
-temes[1].subscribe("Usuari 2");
-temes[1].subscribe("Usuari 3");
+temes[0].subscribe(usuaris[0]);
+temes[1].subscribe(usuaris[1]);
+temes[1].subscribe(usuaris[2]);
 
-//temes[1].desubscribe("Usuari 3");
-console.table(temes);
 
 //Inicialitzacio missatges
 usuaris[0].enviarMissatge(temes[0], "Missatge prova 1");
 usuaris[1].enviarMissatge(temes[1], "Missatge prova 2");
+temes[1].desubscribe(usuaris[2]);
+usuaris[1].enviarMissatge(temes[1], "Missatge prova 3");
