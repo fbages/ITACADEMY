@@ -11,7 +11,11 @@ let pizzaPetita = new Producte("Petita",5, "GBP");
 //Aplicar decorador
 console.log(pizzaGran);
 console.log(pizzaPetita);
-pizzaGran = decorador(pizzaGran);
-pizzaPetita = decorador(pizzaGran);
-console.log(pizzaGran);
-console.log(pizzaPetita);
+(async function esperar(){
+    pizzaGran = await decorador(pizzaGran);
+    console.log(pizzaGran);
+    pizzaPetita = await decorador(pizzaPetita);
+    console.log(pizzaPetita);
+})()
+
+
