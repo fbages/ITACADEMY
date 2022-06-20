@@ -7,22 +7,15 @@ class Middleware {
     this.middlewares.push(fn);
   }
 
-  async executeMiddleware(data, callback) {
-    // console.log(this.middlewares.length);
-    try {
-      for (let i = 0; i < this.middlewares.length; i++) {
-        //console.log(i);
-        await this.middlewares[i](data);
-      }
-      callback();
-    } catch (err) {
-      console.log(err);
-    }
+  executeMiddleware(data, done) {
+    //console.log(this.middlewares.length);
+    this.middlewares.reduceRight((done, next) => () => { next(data, done); }, done)(data);
+
   }
 
-  run(data) {
-    
-    this.executeMiddleware(data, () => console.log("Ha passat a través de tots els middlewares"));
+  run(data, fn) {
+    //console.log(data);
+    this.executeMiddleware(data, (done) => console.log(fn(data)));
   }
 }
 
