@@ -1,10 +1,17 @@
 //imports
 const express = require('express');
+const fileupload = require('express-fileupload');
+const customMiddlewares = require('./middlewares/middleware');
+const cors = require('cors');
 const app = express();
 
-
 //Middlewares
+app.use(express.urlencoded({extended: true,}));
 app.use(express.json());
+app.use(fileupload());
+app.use(cors());
+app.use(customMiddlewares.customHeader);
+app.use(customMiddlewares.autentificacio);
 
 //Routes
 let router = require('./routes/route');
