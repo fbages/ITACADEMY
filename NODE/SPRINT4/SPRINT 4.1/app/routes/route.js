@@ -1,15 +1,16 @@
 //imports
 let express = require('express');
 let router = express.Router();
-let controllers = require('../controllers/controller');
+let pokemonController = require('../controllers/pokemonController');
+let usuariHoraController = require('../controllers/usuariHoraController');
+let validateImageController = require('../controllers/validateImageController');
 
 //Middlewares a routes especifiques
-let cors = require('cors')
-
+let cors = require('cors');
 
 //routes
 router.get('/user', (req, res) => {
-    res.send({ "nom": 'Francesc Bages Sabarich', "edat": 38, "uri": "localhost:3000/user" }); 
+    res.send({ "nom": 'Francesc Bages Sabarich', "edat": 38, "uri": "localhost:3000/user" });
 });
 
 router.post('/upload', controllers.validateimage);

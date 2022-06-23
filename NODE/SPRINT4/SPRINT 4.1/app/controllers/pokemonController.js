@@ -1,38 +1,7 @@
+//Controller que fa una petició a POKEMON API, passant un número Id, extreu de tota la resposta, el nom, alçada i pes del Pokemon identificat
+
 const http = require('http');
 const https = require('https');
-
-exports.validateimage = (req, res) => {
-    if (!req.files) {
-        res.send({
-            status: false,
-            message: 'No has pujat cap fitxer'
-        });
-    } else if (req.files) {
-        let tipoFitxer = req.files.imatge;
-        let tipo = tipoFitxer.name.slice(-3).toUpperCase();
-        console.log(tipo);
-        if (tipo === "PNG" || tipo === "JPG" || tipo === "GIF") {
-            res.send('Imatge rebuda correctament')
-        } else {
-            res.send('Fitxer pujat no és una imatge amb format "PNG", "JPG" o "GIF"');
-        }
-    }
-};
-
-exports.usuariHora = (req, res) => {
-
-    if (!req.body) {
-        res.send({
-            status: false,
-            message: 'No hi ha cap fitxer JSON'
-        });
-    } else if (req.body) {
-        if (req.body) {
-            console.log(req.body.nom);
-            res.send({ 'hora': new Date() });
-        }
-    }
-}
 
 exports.pokemon = async (req, res) => {
     let idPokemon = req.params.id;
