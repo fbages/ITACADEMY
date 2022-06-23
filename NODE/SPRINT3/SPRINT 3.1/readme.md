@@ -1,15 +1,8 @@
-# Entrega 3.1: Patterns 1
+# Sprint 3.1 Patterns 1
 
-## Procediment per executar cada nivell
+## Contingut
 ```
-Nivell 1: Callback hell
-Executar : node callback_hell.js
-
-Nivell 2: Singleton
-Executar : node singleton.js
-
-Nivell 3: Observer
-Executar : node observer.js
-
+Nivell 1 - Callback Hell
+Nivell 2 - Singleton
+Nivell 3 - Observer
 ```
-
