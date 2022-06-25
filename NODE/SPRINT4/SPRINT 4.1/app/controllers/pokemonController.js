@@ -22,7 +22,7 @@ exports.pokemon = async (req, res) => {
 
     const req2 = port.request(options, (res2) => {
         
-        console.log(`statusCode: ${res2.statusCode}`);
+        //console.log(`statusCode: ${res2.statusCode}`);
         res2.setEncoding('utf8');
 
         res2.on('data', chunk => {

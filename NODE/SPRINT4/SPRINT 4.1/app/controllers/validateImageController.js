@@ -6,7 +6,7 @@ exports.validateimage = (req, res) => {
             status: false,
             message: 'No has pujat cap fitxer'
         });
-    } else if (req.files) {
+    } else if (req.files.imatge) {
         let tipoFitxer = req.files.imatge;
         let tipo = tipoFitxer.name.slice(-3).toUpperCase();
         console.log(tipo);
@@ -15,5 +15,7 @@ exports.validateimage = (req, res) => {
         } else {
             res.send('Fitxer pujat no és una imatge amb format "PNG", "JPG" o "GIF"');
         }
+    } else {
+        res.send('Fitxer pujat sense el KEY "imatge"')
     }
 };

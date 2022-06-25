@@ -6,6 +6,8 @@ Per executar la REST API:
 3 - Per arrancar la REST API, des del terminal: 
 ```
 node app/app.js
+o
+npm start
 ```
 
 ## Endpoints
@@ -19,7 +21,7 @@ localhost:3000/user
 localhost:3000/upload
 ```
 
-3 - Petició POST amb parametres que rebi com a paràmetre un JSON amb el nom d'usuari/ària i retorni un objecte JSON que contingui l'hora i data actual. Inclogui un middleware que afegeixi la capçalera Cache-control: no-cache. Habiliti CORS (Cross-Origin Resource Sharing) en les respostes, sigui mitjançant Express o mitjançant un altre middleware. i també té un middleware que retorna un HTTP Status 401 - Unauthorized si la capçalera de la petició no conté autenticació bàsica (usuari/ària i contrasenya).
+3 - Petició POST que rebi com a paràmetre un JSON amb el nom d'usuari/ària i retorni un objecte JSON que contingui l'hora i data actual. Inclogui un middleware que afegeixi la capçalera Cache-control: no-cache. Habiliti CORS (Cross-Origin Resource Sharing) en les respostes, sigui mitjançant Express o mitjançant un altre middleware. i també té un middleware que retorna un HTTP Status 401 - Unauthorized si la capçalera de la petició no conté autenticació bàsica (usuari/ària i contrasenya).
  ```
 localhost:3000/time
 ```
