@@ -1,12 +1,18 @@
 const http = require('http');
-const sequelize = require('../config/config');
+const sequelize = require('../config/configDB');
+const Jugador = require('../models/jugadorModel');
 
-exports.crearJugador = (req,res,next) => {
-    let nom = req.params.nom;
+exports.crearJugador = async (req,res,next) => {
+    let nomJugador = req.params.nom;
+    console.log(nomJugador);
     
-    res.send(
-        
-    );
+    try{
+        Jugador.create({nom:nomJugador}).then(
+            res.send("Rebut")
+            );
+        }catch(err){
+            console.log(err);
+        }
 }
 
 exports.actualitzarJugador = (req,res,next) => {

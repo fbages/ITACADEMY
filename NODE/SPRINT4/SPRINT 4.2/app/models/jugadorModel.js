@@ -1,16 +1,23 @@
-const { DataTypes } = require('sequelize/types');
-const sequelize = require('../config/config');
-
-const Jugador = sequelize.define('jugadors',
-{
-    nom: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-}
-)
+let dataBase = require('../config/configDB');
+let Sequelize = require('sequelize');
 
 
-module.exports = { 
-    Jugador 
-}
+// let Jugador = dataBase.define('jugadors',
+// {
+//     id: {type: Sequelize.INTEGER,primaryKey: true},
+//     nom: Sequelize.STRING
+// }
+// );
+
+
+// module.exports = { 
+//     Jugador 
+// }
+
+// module.exports = (sequelize, Sequelize) => {
+//     const Jugador = sequelize.define("jugadors", {
+//     id: DataTypes.INTEGER,
+//     nom: DataTypes.STRING
+//     });
+//     return Jugador;
+//   };
