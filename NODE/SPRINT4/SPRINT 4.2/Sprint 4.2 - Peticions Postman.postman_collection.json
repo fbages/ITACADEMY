@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "364774f4-fb30-4e36-a5cf-4974198feb29",
+		"_postman_id": "249e503d-c5c8-4fc5-8e1c-864b6137b326",
 		"name": "Sprint 4.2 - Peticions Postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,19 +11,21 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/players?nom=francesc",
+					"raw": "localhost:3000/players/francesc",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"players"
+						"players",
+						"francesc"
 					],
 					"query": [
 						{
 							"key": "nom",
 							"value": "francesc",
-							"description": "nom del nou usuari"
+							"description": "nom del nou usuari",
+							"disabled": true
 						}
 					]
 				}
@@ -126,7 +128,10 @@
 			"name": "Ranking guanyadors per percentatge i percentatge mig",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
@@ -134,7 +139,10 @@
 			"name": "Perdedor",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
