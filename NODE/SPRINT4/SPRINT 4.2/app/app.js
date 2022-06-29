@@ -1,5 +1,4 @@
 const express = require('express');
-//const connectioBD = require('./config/configDB');
 const routerPlayers = require('./routes/routePlayers');
 const routerPartides = require('./routes/routePartides');
 const routerRanking = require('./routes/routeRanking');

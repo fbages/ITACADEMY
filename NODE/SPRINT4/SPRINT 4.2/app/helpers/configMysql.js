@@ -19,7 +19,8 @@ async function initialize() {
 
     // init models and add them to the exported db object
     db.Jugador = require('../models/jugadorModel')(sequelize);
-    console.log(db);
+    db.Partides = require('../models/partidaModel')(sequelize);
+
     // sync all models with database
     await sequelize.sync();
 }
