@@ -18,7 +18,6 @@ exports.jugarPartida = async (req, res, next) => {
         await jugador.save();
         res.send(partida);
     } catch (err) {
-        // console.log(err);
         next(err);
     }
 }
