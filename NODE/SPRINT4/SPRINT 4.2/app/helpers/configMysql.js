@@ -11,14 +11,14 @@ async function initialize() {
     const { host, port, user, password, database } = config.database;
     console.log(database);
     const connection = await mysql.createConnection({ host, port, user, password });
-    await connection.query(`DROP DATABASE IF EXISTS \`${database}\`;`);
+    //await connection.query(`DROP DATABASE IF EXISTS \`${database}\`;`);
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db
     const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
 
     // init models and add them to the exported db object
-    db.Jugador = require('../models/jugadorModel')(sequelize);
+    db.Jugadors = require('../models/jugadorModel')(sequelize);
     db.Partides = require('../models/partidaModel')(sequelize);
 
     // sync all models with database

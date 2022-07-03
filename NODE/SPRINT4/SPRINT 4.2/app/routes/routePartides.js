@@ -1,4 +1,6 @@
 const express = require('express');
+const expressValidator = require('express-validator');
+
 let router = express.Router();
 const partidesController = require('../controllers/partidesController');
 

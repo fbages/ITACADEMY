@@ -1,11 +1,11 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = model;
+module.exports = jugadorModel;
 
-function model(sequelize) {
+function jugadorModel(sequelize) {
     const attributes = {
         nom: { type: DataTypes.STRING, allowNull: false },
-        percentatge: { type: DataTypes.INTEGER, allowNull: true },
+        percentatge: { type: DataTypes.DOUBLE(2,2), allowNull: true },
         data_registre: { type: DataTypes.DATE, allowNull: false },
     };
 
