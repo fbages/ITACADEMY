@@ -3,22 +3,29 @@ const errorHandler = require('./middlewares/errorHandler');
 const routerPlayers = require('./routes/routePlayers');
 const routerPartides = require('./routes/routePartides');
 const routerRanking = require('./routes/routeRanking');
+const routerAdmin = require('./routes/routeAdmin');
 const app = express();
 
-//Conexio a BD
-//const db = connectioBD.connectarBD();
+//Variables d'entorn
+const dotenv = require('dotenv');
+dotenv.config();
 
+//Middleware a totes les rutes per partir els JSON dels POST
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 
 //Routes
 app.use(routerPlayers);
 app.use(routerPartides);
 app.use(routerRanking);
+app.use(routerAdmin);
 
 //Middleware ErrorHandler a posteriori de les routes
 app.use(errorHandler);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
+
 app.listen(PORT, ()=>{
-    console.log(`Server listen on port 3000`);
+    console.log(`Server listen on port ${process.env.PORT}`);
 })

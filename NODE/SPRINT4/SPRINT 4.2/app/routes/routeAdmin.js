@@ -1,7 +1,9 @@
 const express = require('express');
-const router = express.Router();
-const adminController = require('../controllers/adminController.js');
+let router = express.Router();
+const adminController = require('../controllers/adminController');
+const authenticate = require('../middlewares/authenticate');
 
-router.get('/login', );
+router.post('/login',authenticate, adminController.retornJWT);
 
-module.export = router;
+
+module.exports = router;

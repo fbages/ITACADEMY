@@ -1,7 +1,6 @@
 const express = require('express');
-const expressValidator = require('express-validator');
-
 let router = express.Router();
+const expressValidator = require('express-validator');
 const partidesController = require('../controllers/partidesController');
 
 router.post('/games/:id', partidesController.jugarPartida);

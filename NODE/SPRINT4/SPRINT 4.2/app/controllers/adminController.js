@@ -1,16 +1,9 @@
 //jasonwatmore.com
+const jwt = require('jsonwebtoken');
+const {secret} = require('../config/config.json')
 
 exports.retornJWT = async (req,res,next) => {
-
+    const token = jwt.sign({ sub: "hola" }, secret, { expiresIn: '7d' });
+    res.send(token);
 }
 
-async function authenticate({ username, password }) {
-    const user = await db.User.scope('withHash').findOne({ where: { username } });
-
-    if (!user || !(await bcrypt.compare(password, user.hash)))
-        throw 'Username or password is incorrect';
-
-    // authentication successful
-    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
-    return { ...omitHash(user.get()), token };
-}
