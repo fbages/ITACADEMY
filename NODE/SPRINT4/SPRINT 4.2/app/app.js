@@ -25,7 +25,7 @@ app.use(routerAdmin);
 //Middleware ErrorHandler a posteriori de les routes
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, ()=>{
     console.log(`Server listen on port ${process.env.PORT}`);

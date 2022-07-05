@@ -1,6 +1,5 @@
 const express = require('express');
 let router = express.Router();
-const {param, query} = require('express-validator');
 const validMiddleware = require('../middlewares/validator');
 const controllersJugador = require('../controllers/playerController');
 const authorize = require('../middlewares/authorize');

@@ -9,7 +9,7 @@ exports.crearJugador = async (req, res, next) => {
     }
     try {
         let nomJugador = req.params.nom;
-        //console.log(nomJugador);
+        console.log(nomJugador);
         let jugador = await db.Jugadors.create({ nom: nomJugador, percentatge: 0, data_registre: new Date })
         res.send(jugador);
     } catch (err) {
