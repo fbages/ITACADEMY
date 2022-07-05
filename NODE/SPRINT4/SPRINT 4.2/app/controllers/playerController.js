@@ -1,4 +1,4 @@
-const db = require('../helpers/configMysql');
+// const dbMysql = require('../helpers/configMysql');
 const { validationResult } = require('express-validator');
 
 exports.crearJugador = async (req, res, next) => {
@@ -10,7 +10,7 @@ exports.crearJugador = async (req, res, next) => {
     try {
         let nomJugador = req.params.nom;
         console.log(nomJugador);
-        let jugador = await db.Jugadors.create({ nom: nomJugador, percentatge: 0, data_registre: new Date })
+        let jugador = await dbMysql.Jugadors.create({ nom: nomJugador, percentatge: 0, data_registre: new Date })
         res.send(jugador);
     } catch (err) {
         console.log(err);
@@ -27,7 +27,7 @@ exports.actualitzarNomJugador = async (req, res, next) => {
         let idNom = req.params.id;
         let nom = req.query.nom;
         let nouNom = { "nom": nom };
-        let jugador = await db.Jugadors.findOne({ where: { id: idNom } });
+        let jugador = await dbMysql.Jugadors.findOne({ where: { id: idNom } });
         Object.assign(jugador, nouNom);
         // console.log(jugador);
         await jugador.save();
@@ -40,7 +40,7 @@ exports.actualitzarNomJugador = async (req, res, next) => {
 
 exports.llistatJugadors = async (req, res, next) => {
     try {
-        let llistat = await db.Jugadors.findAll({});
+        let llistat = await dbMysql.Jugadors.findAll({});
         // console.log(llistat.nom);
         res.send(llistat);
     } catch (err) {

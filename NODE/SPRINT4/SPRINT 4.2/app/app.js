@@ -1,3 +1,7 @@
+//Variables d'entorn
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const errorHandler = require('./middlewares/errorHandler');
 const routerPlayers = require('./routes/routePlayers');
@@ -7,9 +11,16 @@ const routerAdmin = require('./routes/routeAdmin');
 const authorize = require('./middlewares/authorize');
 const app = express();
 
-//Variables d'entorn
-const dotenv = require('dotenv');
-dotenv.config();
+let database = process.env.DATABASE;
+
+//Seleccio database
+if (database == "mysql") {
+    require('./helpers/configMysql');
+    require('./helpers/mysqlCrudService');
+} else if (database == "mongodb") {
+    require('./helpers/configMongoDB');
+    require('./helpers/mongodbCrudService');
+}
 
 //Middleware a totes les rutes per partir els JSON dels POST
 app.use(express.urlencoded({extended: true}));
