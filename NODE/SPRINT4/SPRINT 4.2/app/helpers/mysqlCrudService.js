@@ -1,6 +1,12 @@
 const sequelize = require('sequelize');
 
-module.exports = serviceDb = {
+module.exports = serviceDb = { //Declaracio global de serviceDB
+    crearJugador,
+    modificarNomJugador,
+    llistatJugadors,
+    crearPartida,
+    eliminarPartides,
+    llistaPartides,
     rankingSorted,
     perdedor,
     guanyador
@@ -8,11 +14,59 @@ module.exports = serviceDb = {
 
 
 
-async function crearJugador(nomJugador){  
-        return await dbMysql.Jugadors.create({ nom: nomJugador, percentatge: 0, data_registre: new Date })
+async function crearJugador(nomJugador) {
+    return await dbMysql.Jugadors.create({ nom: nomJugador, percentatge: 0, data_registre: new Date })
 }
 
+async function modificarNomJugador(idJugador, nouNom) {
+    const jugador = await dbMysql.Jugadors.findOne({ where: { id: idJugador } });
+    Object.assign(jugador, nouNom);
+    await jugador.save();
+    return jugador;
+}
 
+async function llistatJugadors() {
+    return await dbMysql.Jugadors.findAll({})
+}
+
+async function crearPartida(idJugador, resultat, dau1, dau2) {
+    let partides,
+        quantitatPartides,
+        partidesGuanyades,
+        quantitatPartidesGuanyades,
+        percentatge,
+        jugador;
+
+    let partida = await dbMysql.Partides.create({
+        idjugador: idJugador,
+        resultat: resultat,
+        dau1: dau1,
+        dau2: dau2,
+    });
+    partides = await dbMysql.Partides.findAll({
+        where: { idjugador: idJugador },
+    });
+    quantitatPartides = partides.length;
+    partidesGuanyades = await dbMysql.Partides.findAll({
+        where: { idjugador: idJugador, resultat: 0 },
+    });
+    quantitatPartidesGuanyades = partidesGuanyades.length;
+    percentatge = Number(
+        quantitatPartidesGuanyades / quantitatPartides
+    ).toFixed(2);
+    jugador = await dbMysql.Jugadors.findOne({ where: { id: idJugador } });
+    Object.assign(jugador, { percentatge: percentatge });
+    await jugador.save();
+    return partida;
+}
+
+async function eliminarPartides(idJugador) {
+    return await dbMysql.Partides.destroy({ where: { idjugador: idJugador } });
+}
+
+async function llistaPartides(idJugador) {
+    return await dbMysql.Partides.findAll({ where: { idjugador: idJugador }, });
+}
 
 async function rankingSorted() {
     return await dbMysql.Jugadors.findAll({

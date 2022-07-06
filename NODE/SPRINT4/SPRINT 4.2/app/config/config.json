@@ -1,10 +1,12 @@
 {
-    "database": {
+    "dbmysql": {
         "host": "localhost",
         "port": 3306,
-        "user": "root",
-        "password": "ITAcademy",
-        "database": "dados_model"
+        "databaseName": "dados_db"
     },
-    "secret": "STRING_SECRET_ITAcademy"
+    "dbmongo": {
+        "host": "localhost",
+        "port": 27017,
+        "databaseName": "dados_db"
+    }
 }

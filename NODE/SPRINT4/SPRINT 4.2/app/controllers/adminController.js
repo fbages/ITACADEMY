@@ -1,9 +1,8 @@
 //jasonwatmore.com
 const jwt = require('jsonwebtoken');
-const {secret} = require('../config/config.json')
 
 exports.retornJWT = async (req,res,next) => {
-    const token = jwt.sign({ sub: "admin" }, secret, { expiresIn: '7d' });
+    const token = jwt.sign({ sub: "admin" }, process.env.SECRET, { expiresIn: '7d' });
     res.send(token);
 }
 

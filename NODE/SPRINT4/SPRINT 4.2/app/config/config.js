@@ -15,9 +15,11 @@ if (database == "mysql") {
   initialize();
 
   async function initialize() {
-    // create db if it doesn't already exist
-    const { host, port, user, password, database } = config.database;
-    console.log(database);
+
+    const { host, port, databaseName } = config.dbmysql;
+    const user = process.env.DATABASE_USER;
+    const password = process.env.DATABASE_PASSWORD;
+
     const connection = await mysql.createConnection({
       host,
       port,
@@ -25,10 +27,10 @@ if (database == "mysql") {
       password,
     });
     //await connection.query(`DROP DATABASE IF EXISTS \`${database}\`;`);
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
-
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${databaseName}\`;`);
+    console.log("Conectat a la base de dades de Mysql");
     // connect to db
-    const sequelize = new Sequelize(database, user, password, {
+    const sequelize = new Sequelize(databaseName, user, password, {
       dialect: "mysql",
     });
 
@@ -50,7 +52,10 @@ if (database == "mysql") {
   initialize();
 
   async function initialize() {
-    await mongoose.connect("mongodb://localhost:27017/test");
+    const { host, port, databaseName } = config.dbmongo;
+    const user = process.env.DATABASEMONGO_USER;
+    const password = process.env.DATABASEMONGO_PASSWORD;
+    await mongoose.connect("mongodb://" + host + ":"+ port + "/" + databaseName);
     console.log("Conectat a la base de dades de MongoDB");
 
     dbMongoDB.Jugadors = mongoose.model("Jugadors", jugadorSchema);
