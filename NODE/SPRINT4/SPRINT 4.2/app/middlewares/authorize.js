@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { secret } = require('../config/config.json');
 
 module.exports = authorize;
 
@@ -10,7 +9,7 @@ function authorize (req, res, next) {
     console.log(token);
     if (!token) return res.status(401).json({ error: 'Acceso denegado' })
     try {
-        const verified = jwt.verify(token, secret);
+        const verified = jwt.verify(token, process.env.SECRET);
         console.log(verified);
         req.user = verified;
         next() // continuamos
