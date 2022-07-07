@@ -46,24 +46,8 @@ if (database == "mysql") {
   const mongoose = require("mongoose");
   const jugadorSchema = require("../models/jugadorModelMongoDB");
   const partidaSchema = require("../models/partidaModelMongoDB");
-  
+
   dbMongoDB = {};//fa la variable global accessible a tot el programa (seria com declara un var)
-  
-  //Middleware abans de salvar els fitxers, pero despres de executar el create al service
-   jugadorSchema.pre('validate', async (next)=>{
-    console.log("hola pre");
-    const jsultimJugador = await dbMongoDB.Jugadors.find({}).limit(1).sort({id:-1})|| [];
-      console.log(jsultimJugador)
-    dbMongoDB.maxIndex = (jsultimJugador.length!=0)?(Number(jsultimJugador[0].id) + 1):0;
-    console.log(dbMongoDB.maxIndex);
-    return next();
-  });
-
-  jugadorSchema.post('save', (doc,next)=>{
-    console.log("hola post");
-    return next();
-  })
-
 
   initialize();
 
@@ -71,12 +55,12 @@ if (database == "mysql") {
     const { host, port, databaseName } = config.dbmongo;
     const user = process.env.DATABASEMONGO_USER;
     const password = process.env.DATABASEMONGO_PASSWORD;
-    await mongoose.connect("mongodb://" + host + ":"+ port + "/" + databaseName);
+    await mongoose.connect("mongodb://" + host + ":" + port + "/" + databaseName);
     console.log("Conectat a la base de dades de MongoDB");
 
 
     dbMongoDB.Jugadors = mongoose.model("Jugadors", jugadorSchema);
-    dbMongoDB.Partides = mongoose.model("Partides", partidaSchema);
+   // dbMongoDB.Partides = mongoose.model("Partides", partidaSchema);
   }
   require("../helpers/mongodbCrudService");
 }

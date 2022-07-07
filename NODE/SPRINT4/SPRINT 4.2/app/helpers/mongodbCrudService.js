@@ -5,7 +5,7 @@ module.exports = serviceDb = { //Declaracio global de serviceDB
     llistatJugadors,
     crearPartida,
     eliminarPartides,
-    llistaPartides,
+    llistarPartides,
     rankingSorted,
     perdedor,
     guanyador
@@ -14,15 +14,17 @@ module.exports = serviceDb = { //Declaracio global de serviceDB
 
 
 async function crearJugador(nomJugador) {
-    console.log("Index crear" , dbMongoDB.maxIndex);
-    return await dbMongoDB.Jugadors.create({ id: dbMongoDB.maxIndex ,nom: nomJugador, percentatge: 0, data_registre: new Date })
+    const jsultimJugador = await dbMongoDB.Jugadors.find({}).limit(1).sort({ id: -1 }) || [];
+    dbMongoDB.maxIndex = (jsultimJugador.length != 0) ? (Number(jsultimJugador[0].id) + 1) : 0;
+    return await dbMongoDB.Jugadors.create({ id: dbMongoDB.maxIndex, nom: nomJugador, percentatge: 0, data_registre: new Date })
 }
 
 async function modificarNomJugador(idJugador, nouNom) {
-    const jugador = await dbMongoDB.Jugadors.findOne({id: idJugador });
-    Object.assign(jugador, nouNom);
-    await jugador.save();
-    return jugador;
+    let existeixJugador = await dbMongoDB.Jugadors.findOne({ id: idJugador });
+    if (existeixJugador == null) { return ({"message":"Aquest jugador no existeix"}) };
+    Object.assign(existeixJugador, nouNom);
+    await existeixJugador.save();
+    return existeixJugador;
 }
 
 async function llistatJugadors() {
@@ -30,49 +32,56 @@ async function llistatJugadors() {
 }
 
 async function crearPartida(idJugador, resultat, dau1, dau2) {
+    //existeix jugador?
+    let existeixJugador = await dbMongoDB.Jugadors.findOne({ id: idJugador });
+    if (existeixJugador == null) { throw Error("Aquest jugador no existeix") };
     let partides,
+        objPartides,
         quantitatPartides,
         partidesGuanyades,
         quantitatPartidesGuanyades,
         percentatge,
         jugador;
 
-    let partida = await dbMongoDB.Partides.create({
-        idjugador: idJugador,
+    existeixJugador.partides.push({
         resultat: resultat,
         dau1: dau1,
         dau2: dau2,
     });
-    partides = await dbMongoDB.Partides.find({idjugador: idJugador});
+    await existeixJugador.save();
+    objPartides = await dbMongoDB.Jugadors.find({ id: idJugador }).select("partides");
+    partides = objPartides[0].partides;
     quantitatPartides = partides.length;
-    partidesGuanyades = await dbMongoDB.Partides.find({idjugador: idJugador, resultat: 0});
+    partidesGuanyades = partides.filter(partida => partida.resultat == 0);
     quantitatPartidesGuanyades = partidesGuanyades.length;
-    percentatge = Number(
-        quantitatPartidesGuanyades / quantitatPartides
-    ).toFixed(2);
-    //console.log(percentatge);
-    jugador = await dbMongoDB.Jugadors.findOne({ idjugador: idJugador});
+    percentatge = Number(quantitatPartidesGuanyades / quantitatPartides).toFixed(2);
+    jugador = await dbMongoDB.Jugadors.findOne({ id: idJugador });
     Object.assign(jugador, { percentatge: percentatge });
     await jugador.save();
-    return partida;
+    return existeixJugador;
 }
 
 async function eliminarPartides(idJugador) {
-    return await dbMongoDB.Partides.deleteOne({ idjugador: idJugador});
+    let existeixJugador = await dbMongoDB.Jugadors.findOne({ id: idJugador });
+    if (existeixJugador == null) { return ({"message":"Aquest jugador no existeix"}) };
+    existeixJugador.partides = [];
+    return existeixJugador.save();
 }
 
-async function llistaPartides(idJugador) {
-    return await dbMongoDB.Partides.find({ idjugador: idJugador});
+async function llistarPartides(idJugador) {
+    let existeixJugador = await dbMongoDB.Jugadors.findOne({ id: idJugador });
+    if (existeixJugador == null) {return ({"message":"Aquest jugador no existeix"}) };
+    return existeixJugador.partides;
 }
 
 async function rankingSorted() {
-    return await dbMongoDB.Jugadors.find({}).sort({percentatge:-1}).select({nom:1,percentatge:1});
+    return await dbMongoDB.Jugadors.find({}).sort({ percentatge: -1 }).select({ "nom": 1, "percentatge": 1 });
 }
 
 async function perdedor() {
-    return await dbMongoDB.Jugadors.find({}).limit(1).sort({percentatge:1}).select({nom:1,percentatge:1});
+    return await dbMongoDB.Jugadors.find({}).limit(1).sort({ percentatge: 1 }).select({ "nom": 1, "percentatge": 1 });
 }
 
 async function guanyador() {
-    return await dbMongoDB.Jugadors.find({}).limit(1).sort({percentatge:-1}).select({nom:1,percentatge:1});
+    return await dbMongoDB.Jugadors.find({}).limit(1).sort({ percentatge: -1 }).select({ "nom": 1, "percentatge": 1 });
 }

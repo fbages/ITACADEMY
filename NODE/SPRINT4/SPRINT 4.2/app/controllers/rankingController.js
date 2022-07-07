@@ -1,14 +1,12 @@
 
 exports.llistatGuanyadors = async (req, res, next) => {
-    res.send(await serviceDb.rankingSorted());
+    res.json(await serviceDb.rankingSorted());
 }
 
 exports.perdedor = async (req, res, next) => {
-    res.send(await serviceDb.perdedor());
+    res.json(await serviceDb.perdedor());
 }
 
 exports.guanyador = async (req, res, next) => {
-     console.log(serviceDb);
-     console.log(dbMysql);
-    res.send(await serviceDb.guanyador());
+    res.json(await serviceDb.guanyador());
 }

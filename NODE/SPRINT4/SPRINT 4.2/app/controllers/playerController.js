@@ -9,7 +9,7 @@ exports.crearJugador = async (req, res, next) => {
         let nomJugador = req.params.nom;
         let jugador = await serviceDb.crearJugador(nomJugador);
         //console.log(jugador);
-        res.send(jugador);
+        res.json(jugador);
     } catch (err) {
         console.log(err);
         next();
@@ -25,7 +25,7 @@ exports.actualitzarNomJugador = async (req, res, next) => {
         let idJugador = req.params.id;
         let nouNom = { "nom": req.query.nom };
         let jugador = await serviceDb.modificarNomJugador(idJugador,nouNom);
-        res.send(jugador);
+        res.json(jugador);
     } catch (err) {
         console.log(err);
         next();
@@ -34,7 +34,7 @@ exports.actualitzarNomJugador = async (req, res, next) => {
 
 exports.llistatJugadors = async (req, res, next) => {
     try {
-        res.send(await serviceDb.llistatJugadors());
+        res.json(await serviceDb.llistatJugadors());
     } catch (err) {
         console.log(err);
         next();

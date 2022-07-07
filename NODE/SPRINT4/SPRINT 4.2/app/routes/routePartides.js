@@ -1,12 +1,13 @@
 const express = require('express');
 let router = express.Router();
-const expressValidator = require('express-validator');
 const partidesController = require('../controllers/partidesController');
+const validMiddleware = require('../middlewares/validator');
+const authorize = require('../middlewares/authorize');
 
-router.post('/games/:id', partidesController.jugarPartida);
+router.post('/games/:id', authorize, validMiddleware.valIdNumber, partidesController.jugarPartida);
 
-router.delete('/games/:id', partidesController.eliminarPartides);
+router.delete('/games/:id', authorize, validMiddleware.valIdNumber, partidesController.eliminarPartides);
 
-router.get('/games/:id', partidesController.llistatPartides);
+router.get('/games/:id', authorize,validMiddleware.valIdNumber, partidesController.llistatPartides);
 
 module.exports = router;

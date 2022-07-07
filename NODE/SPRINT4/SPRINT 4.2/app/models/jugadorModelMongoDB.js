@@ -6,7 +6,6 @@ const jugadorSchema = new Schema({
     percentatge : Number,
     registre : {type: Date, default : Date.now},
     partides :[{
-        idjugador : Number,
         resultat : Number,
         dau1 : Number,
         dau2 : Number
