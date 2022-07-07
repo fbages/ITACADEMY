@@ -8,7 +8,7 @@ exports.crearJugador = async (req, res, next) => {
     try {
         let nomJugador = req.params.nom;
         let jugador = await serviceDb.crearJugador(nomJugador);
-        console.log(jugador);
+        //console.log(jugador);
         res.send(jugador);
     } catch (err) {
         console.log(err);
